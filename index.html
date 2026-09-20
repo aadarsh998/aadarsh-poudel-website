@@ -82,6 +82,12 @@
   .back .where { font-weight:700; margin:0; }
   .back .when { color:var(--muted); margin:.1rem 0 .8rem; }
   .back p { margin:0; font-size:1rem; }
+  .back p + p { margin-top:.7rem; }
+  .face.back { padding-bottom:5.2rem; }
+  .flip.long { width:min(560px,100%); height:540px; }
+  .flip.xlong { width:min(600px,100%); height:650px; }
+  .flip.long .back p, .flip.xlong .back p { font-size:.95rem; line-height:1.6; }
+  @media (max-width:520px) { .flip.long { height:680px; } .flip.xlong { height:1000px; } }
 
   /* ---------- inner pages ---------- */
   .content { max-width:980px; margin:0 auto; padding:2.8rem 1.6rem 1rem; }
@@ -289,13 +295,13 @@ const SITE = {
   /* logo: paste an image URL (a university logo, for example) to replace the text crest */
   education: [
     { logo:LOGO_KU, url:"https://ku.edu.np/", crest:"KU", sub:"Kathmandu University", title:"Bachelor of Science in Agriculture", where:"Kathmandu University, Dhulikhel, Kavre", when:"2020 – 2025",
-      text:"I completed my Bachelor's in Agriculture at Kathmandu University with a CGPA of 3.52/4.00 (83.2%). My final-year project tested seven wheat genotypes with farmers and identified a high-yielding, rust-resistant variety. In November 2025 I also completed a 48-hour laboratory course in Agricultural Microbiology at the KU School of Science, with Grade A." },
+      text:"I completed my Bachelor’s degree in Agriculture at Kathmandu University with a CGPA of 3.52/4.00 (83.2%). My undergraduate final research project focused on the quantitative assessment of wheat genotypes for yield and yield-attributing traits under irrigated conditions in the mid-hills of Nepal, with Surma included as the control variety. In November 2025, I also completed a 48-hour laboratory course in Agricultural Microbiology at the KU School of Science, receiving a Grade A. I achieved a PTE Academic score of 83/90, with scores of 90 in Speaking, 87 in Listening, 77 in Writing, and 64 in Reading." },
   ],
   research: [
-    { logo:LOGO_SB, url:"https://np.linkedin.com/company/subhambiotechnepal", crest:"SB", sub:"Shubham Biotech", title:"Research Intern", where:"Shubham Biotech Nepal Pvt. Ltd., Bharatpur, Chitwan", when:"2026 – present",
+    { logo:LOGO_SB, url:"https://np.linkedin.com/company/subhambiotechnepal", crest:"SB", sub:"Shubham Biotech", title:"Research Intern", where:"Shubham Biotech Nepal Pvt. Ltd., Bharatpur, Chitwan", when:"February 2026 – present",
       text:"I support research and development on agricultural and food bioprocesses, including PGPR and other microbial applications, fermentation systems and biologically derived products." },
-    { logo:LOGO_NARC, url:"https://narc.gov.np/", crest:"NARC", sub:"DoAR, Lumle", title:"Research Assistant and Research Intern", where:"Directorate of Agricultural Research, Lumle, Kaski", when:"2025",
-      text:"I ran 20 field experiments on cereal varieties and led a survey of 200 farming households on climate change and livelihoods across three districts." }
+    { logo:LOGO_NARC, url:"https://narc.gov.np/", crest:"NARC", sub:"DoAR, Lumle", title:"Research Assistant and Research Intern", where:"Directorate of Agricultural Research (DoAR), Lumle, Kaski, Nepal", when:"March 2025 – November 2025",
+      text:"I worked across field research, crop evaluation, farmer-based research, and agricultural extension at DoAR Lumle. During my Research Assistantship, I conducted and supported field experiments evaluating barley, wheat, rice, millet, and maize varieties under mid-hill conditions, including the fieldwork associated with my undergraduate final-year research project. I assessed phenotypic and yield-related traits and contributed to the collection and analysis of experimental data.\nI also contributed to a study examining the economic and livelihood implications of climate change on agriculture, involving surveys of approximately 200 farming households across three districts. Using KoboToolbox, I collected farmer-level data and supported its analysis to understand agricultural adaptation and resilience.\nAs a Research Intern, I supported crop-production experiments, managed 11 research fields, assisted with soil and crop data collection, and provided agricultural extension support to farmers. I also contributed to data interpretation and technical reporting using R and Python." }
   ],
   interests: [
     "My research interests span soil science, plant–microbe interactions, plant breeding, and sustainable agriculture, with a focus on understanding and improving soil health, nutrient cycling, and crop performance. I am particularly interested in biochar and sustainable nutrient management, PGPR and biological nitrogen fixation, rhizosphere interactions, microbial ecology, and crop improvement for enhanced nutrient-use efficiency and stress resilience. Through an interdisciplinary approach integrating soil, plants, microorganisms, and breeding, I aim to contribute to productive, climate-resilient, and environmentally sustainable agricultural systems."
@@ -377,13 +383,13 @@ function drawArt() {
 
 const chev = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
 const cardHTML = a => `
-  <div class="flip">
+  <div class="flip${a.text.length > 900 ? " xlong" : a.text.length > 400 ? " long" : ""}">
     <div class="flip-inner">
       <div class="face front">
         ${(() => { const inner = a.logo ? `<img class="logo" src="${esc(a.logo)}" alt="${esc(a.where)}">` : `<div class="crest"><div><b>${esc(a.crest)}</b><span>${esc(a.sub)}</span></div></div>`; return a.url ? `<a class="logo-link" href="${esc(a.url)}" target="_blank" rel="noopener" aria-label="Visit ${esc(a.sub)} website">${inner}</a>` : inner; })()}
       </div>
       <div class="face back">
-        <h3>${esc(a.title)}</h3><p class="where">${esc(a.where)}</p><p class="when">${esc(a.when)}</p><p>${esc(a.text)}</p>
+        <h3>${esc(a.title)}</h3><p class="where">${esc(a.where)}</p><p class="when">${esc(a.when)}</p>${a.text.split("\n").map(t => `<p>${esc(t)}</p>`).join("")}
       </div>
     </div>
     <button class="flipbtn" type="button" aria-label="Show details for ${esc(a.title)}">${chev}</button>
