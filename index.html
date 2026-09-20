@@ -111,8 +111,8 @@
   .file small { display:block; color:var(--muted); font-size:.88rem; }
   .links a { display:block; margin:0 0 .9rem; }
 
-  ol.pubs a { text-decoration:none; }
-  ol.pubs a:hover { text-decoration:underline; }
+  ol.pubs a, ul.pubs a { text-decoration:none; }
+  ol.pubs a:hover, ul.pubs a:hover { text-decoration:underline; }
 
   .links-icons { display:flex; gap:1.6rem; flex-wrap:wrap; margin:0 0 2rem; }
   .c-icon { text-decoration:none; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:.5rem; }
@@ -163,7 +163,7 @@
         <button class="item" data-tab="publications" type="button">Publications</button>
         <button class="item" data-tab="photos" type="button">Photos</button>
         <div class="dd" id="aboutDD">
-          <button class="item" id="aboutBtn" type="button" aria-haspopup="true" aria-expanded="false">About
+          <button class="item" id="aboutBtn" type="button" aria-haspopup="true" aria-expanded="false">About Me
             <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="menu">
@@ -302,19 +302,20 @@ const SITE = {
   ],
   projects: [
     { t:"Identification and Characterization of Serratia sp. strain B7 as a Phosphorus-solubilizing rhizobacteria from the Drepanostachyum falcatum rhizosphere" },
-    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", s:"Final Year Project" },
+    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", s:"Undergraduate Final Year Research Project" },
     { t:"Residual Effect of Biochar in Potato-Maize Cropping System" },
     { t:"Leaf Color Chart Can Increase Productivity & Foster Climate Smart Agriculture in Rice: A Case Study" },
     { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", s:"Ongoing" }
   ],
   published: [
     { t:"Lamsal, A., Poudel, A., Dhital, Y., Tharu, P. K., Singh, N. K., & Subedi, R. (2023). Leaf Color Chart Can Increase Productivity and Foster Climate-Smart Agriculture in Rice: A Case Study. Agronomy Journal of Nepal, 7(1), 43–49.", link:"https://doi.org/10.3126/ajn.v7i1.62066" },
-    { t:"Pathak, G., et al. (2025). Serratia sp. B7 16S rRNA gene, partial sequence. GenBank Accession No. PX915666.1." },
+    { t:"Pathak, G., et al. (2025). Serratia sp. B7 16S rRNA gene, partial sequence. GenBank Accession No. PX915666.1.", link:"https://www.ncbi.nlm.nih.gov/nuccore/PX915666" },
     { t:"Rhizosphere and Biological Nitrogen Fixation: Integrating Plant–Microbe Interactions for Sustainable Agroecosystems", s:"Under review in a journal" },
-    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", s:"Under review in a journal" }
+    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", s:"Under review in a journal" },
+    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", s:"Under review in a journal" }
   ],
   posters: [
-    { t:"Poudel, A., et al. (2024, September). Nutrient Enriched Biochar: A Potential Source for Enhancing Soil Health. Poster presented at the GABELS 2024 Conference, Kathmandu, Nepal." }
+    { t:"Poudel, A., et al. (2024, September). Nutrient Enriched Biochar: A Potential Source for Enhancing Soil Health. Poster presented at the GABELS 2024 Conference, Kathmandu, Nepal.", link:"https://www.researchgate.net/publication/393446183_Nepal-Souvenir_Abstract_Book_-_GABELS_-_2024" }
   ],
   photos: [
     { group:"Soil Laboratory", items:[
@@ -339,8 +340,9 @@ const SITE = {
       { caption:"Serving as MC (volunteer) at the 3rd Habitat Innovation Conclave 2024", src:PH_MC, wide:true } ] }
   ],
   about: [
-    "I am an agriculture graduate from Kathmandu University, originally from Okhaldhunga, Nepal. I enjoy working between the field and the laboratory: running crop trials and farmer surveys one season, and isolating and sequencing beneficial soil bacteria the next.",
-    "I hope to continue into graduate research on plant–microbe interactions and sustainable soil management. If you are working on something similar, I would love to hear from you."
+    "I am an agriculture graduate from Kathmandu University, Nepal, with a growing interest in soil science, crop science, plant–microbe interactions, and sustainable agriculture. My experience spans both the field and the laboratory—from conducting crop trials and farmer surveys to studying soil properties and isolating and characterizing beneficial microorganisms.",
+    "I am particularly interested in understanding how soil health, beneficial microbes, crop improvement, and sustainable management practices can work together to build productive and resilient agroecosystems. I hope to continue developing these interests through graduate research and contribute to practical solutions for sustainable agriculture.",
+    "If you are working on related research or share similar interests, I would be happy to connect."
   ]
 };
 /* ========================================================== */
@@ -348,6 +350,7 @@ const SITE = {
 const PAGE_IDS = ["home","research","projects","publications","photos","about","contact"];
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ital = s => esc(s).replace(/(Serratia sp\.|Drepanostachyum falcatum)/g, "<i>$1</i>");
 
 /* line-art hero picture: a wireframe microbe colony and root threads, cropped by the page edge */
 function drawArt() {
@@ -389,18 +392,13 @@ const cardHTML = a => `
 function render() {
   $("eduCards").innerHTML = SITE.education.map(cardHTML).join("");
   $("resCards").innerHTML = SITE.research.map(cardHTML).join("");
-  $("projectList").innerHTML = SITE.projects.map(p => `<li>${esc(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
+  $("projectList").innerHTML = SITE.projects.map(p => `<li>${ital(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("interestList").innerHTML = SITE.interests.map(p => `<p>${esc(p)}</p>`).join("");
-  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.t)}</a>` : esc(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
-  $("posterList").innerHTML = SITE.posters.map(p => `<li>${esc(p.t)}</li>`).join("");
+  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
+  $("posterList").innerHTML = SITE.posters.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.t)}</a>` : esc(p.t)}</li>`).join("");
   $("photoList").innerHTML = SITE.photos.map(g => `<div class="subhead">${esc(g.group)}</div><div class="photo-cols">${g.items.map(p => `<figure${p.wide ? ' class="wide"' : ""}><div class="shot">${p.src ? `<img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy">` : "Photo coming soon"}</div><figcaption>${esc(p.caption)}</figcaption></figure>`).join("")}</div>`).join("");
   $("aboutText").innerHTML = SITE.about.map(p => `<p>${esc(p)}</p>`).join("");
-  const c = [];
-  if (LINKEDIN_URL) c.push(`<a href="${esc(LINKEDIN_URL)}" target="_blank" rel="noopener">${esc(LINKEDIN_URL)}</a>`);
-  if (CV_URL) c.push(`<a href="${esc(CV_URL)}" target="_blank" rel="noopener">Download my CV</a>`);
-  c.push(`<a href="mailto:${esc(EMAIL)}">${esc(EMAIL)}</a>`);
-  if (ORCID_URL) c.push(`<a href="${esc(ORCID_URL)}" target="_blank" rel="noopener">${esc(ORCID_URL)}</a>`);
-  $("contactList").innerHTML = c.join("");
+  if (CV_URL) $("contactList").innerHTML = `<a href="${esc(CV_URL)}" target="_blank" rel="noopener">Download my CV</a>`;
   $("contactIcons").innerHTML = `
     <a class="c-icon" href="mailto:${esc(EMAIL)}" aria-label="Email">
       <img class="c-logo" src="${ICON_GMAIL}" alt="Gmail">
