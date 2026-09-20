@@ -308,11 +308,11 @@ const SITE = {
     "My research interests span soil science, plant–microbe interactions, plant breeding, and sustainable agriculture, with a focus on understanding and improving soil health, nutrient cycling, and crop performance. I am particularly interested in biochar and sustainable nutrient management, PGPR and biological nitrogen fixation, rhizosphere interactions, microbial ecology, and crop improvement for enhanced nutrient-use efficiency and stress resilience. Through an interdisciplinary approach integrating soil, plants, microorganisms, and breeding, I aim to contribute to productive, climate-resilient, and environmentally sustainable agricultural systems."
   ],
   projects: [
-    { t:"Identification and Characterization of Serratia sp. strain B7 as a Phosphorus-solubilizing rhizobacteria from the Drepanostachyum falcatum rhizosphere" },
-    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", s:"Undergraduate Final Year Research Project" },
-    { t:"Residual Effect of Biochar in Potato-Maize Cropping System" },
-    { t:"Leaf Color Chart Can Increase Productivity & Foster Climate Smart Agriculture in Rice: A Case Study" },
-    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", s:"Ongoing" }
+    { t:"Identification and Characterization of Serratia sp. strain B7 as a Phosphorus-solubilizing rhizobacteria from the Drepanostachyum falcatum rhizosphere", sup:"Supervised by Dr. Janardan Lamichhane and Dr. Gyanu Raj Pandey" },
+    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", sup:"Supervised by Scientist (S2) Ramesh Acharya and Lecturer Janarjan Adhikari", s:"Undergraduate Final Year Research Project" },
+    { t:"Residual Effect of Biochar in Potato-Maize Cropping System", sup:"Supervised by Dr. Kumar Lama and led by Lecturer Ajay Jaishi" },
+    { t:"Leaf Color Chart Can Increase Productivity & Foster Climate Smart Agriculture in Rice: A Case Study", sup:"Supervised by Lecturer Roshan Subedi" },
+    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", sup:"Supervised by PhD Scholar Mr. Govinda Pathak and Dr. Gyanu Raj Pandey", s:"Ongoing" }
   ],
   published: [
     { t:"Lamsal, A., Poudel, A., Dhital, Y., Tharu, P. K., Singh, N. K., & Subedi, R. (2023). Leaf Color Chart Can Increase Productivity and Foster Climate-Smart Agriculture in Rice: A Case Study. Agronomy Journal of Nepal, 7(1), 43–49.", link:"https://doi.org/10.3126/ajn.v7i1.62066" },
@@ -399,7 +399,7 @@ const cardHTML = a => `
 function render() {
   $("eduCards").innerHTML = SITE.education.map(cardHTML).join("");
   $("resCards").innerHTML = SITE.research.map(cardHTML).join("");
-  $("projectList").innerHTML = SITE.projects.map(p => `<li>${ital(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
+  $("projectList").innerHTML = SITE.projects.map(p => `<li>${ital(p.t)}${p.sup ? `<span class="au">${esc(p.sup)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("interestList").innerHTML = SITE.interests.map(p => `<p>${esc(p)}</p>`).join("");
   $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}${p.au ? `<span class="au">${ital(p.au)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("posterList").innerHTML = SITE.posters.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}</li>`).join("");
