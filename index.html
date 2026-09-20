@@ -96,6 +96,7 @@
   .content p b { font-weight:700; }
   ol.pubs { padding-left:1.4rem; }
   ol.pubs li { margin:0 0 1.5rem; padding-left:.4rem; }
+  .pubs .au { display:block; }
   .pubs .st { display:block; color:var(--muted); font-style:italic; }
   .subhead { font-weight:700; font-size:1.3rem; margin:2.2rem 0 1rem; }
 
@@ -316,9 +317,9 @@ const SITE = {
   published: [
     { t:"Lamsal, A., Poudel, A., Dhital, Y., Tharu, P. K., Singh, N. K., & Subedi, R. (2023). Leaf Color Chart Can Increase Productivity and Foster Climate-Smart Agriculture in Rice: A Case Study. Agronomy Journal of Nepal, 7(1), 43–49.", link:"https://doi.org/10.3126/ajn.v7i1.62066" },
     { t:"Pathak, G., et al. (2025). Serratia sp. B7 16S rRNA gene, partial sequence. GenBank Accession No. PX915666.1.", link:"https://www.ncbi.nlm.nih.gov/nuccore/PX915666" },
-    { t:"Rhizosphere and Biological Nitrogen Fixation: Integrating Plant–Microbe Interactions for Sustainable Agroecosystems", s:"Under review in a journal" },
-    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", s:"Under review in a journal" },
-    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", s:"Under review in a journal" }
+    { t:"Rhizosphere and Biological Nitrogen Fixation: Integrating Plant–Microbe Interactions for Sustainable Agroecosystems", au:"Pathak G., Rijal M., Poudel A., Pandey G.R., Aryal B., Ghimire S., Devkota S.P., Timilsina P.M., Lamichhane J.", s:"Under review in a journal" },
+    { t:"Growth-Promoting Efficacy and Biocompatibility of Single-Strain Versus Consortium PGPR Applications in Pot-Grown Bok Choy", au:"Munna M.A.M., Poudel A., Sharmin S., Pandey G.R., Subedi R., Lama K., Pathak G.", s:"Under review in a journal" },
+    { t:"Quantitative Assessment of Wheat Genotypes for Yield and Yield-Attributing Traits", au:"Poudel A., Mahato P.K., Yadav N., Adhikari J., Acharya R.", s:"Under review in a journal" }
   ],
   posters: [
     { t:"Poudel, A., et al. (2024, September). Nutrient Enriched Biochar: A Potential Source for Enhancing Soil Health. Poster presented at the GABELS 2024 Conference, Kathmandu, Nepal.", link:"https://www.researchgate.net/publication/393446183_Nepal-Souvenir_Abstract_Book_-_GABELS_-_2024" }
@@ -356,7 +357,7 @@ const SITE = {
 const PAGE_IDS = ["home","research","projects","publications","photos","about","contact"];
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const ital = s => esc(s).replace(/(Serratia sp\.|Drepanostachyum falcatum)/g, "<i>$1</i>");
+const ital = s => esc(s).replace(/(Serratia sp\.|Drepanostachyum falcatum)/g, "<i>$1</i>").replace(/Poudel,? A\./g, "<b>$&</b>");
 
 /* line-art hero picture: a wireframe microbe colony and root threads, cropped by the page edge */
 function drawArt() {
@@ -400,8 +401,8 @@ function render() {
   $("resCards").innerHTML = SITE.research.map(cardHTML).join("");
   $("projectList").innerHTML = SITE.projects.map(p => `<li>${ital(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("interestList").innerHTML = SITE.interests.map(p => `<p>${esc(p)}</p>`).join("");
-  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
-  $("posterList").innerHTML = SITE.posters.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.t)}</a>` : esc(p.t)}</li>`).join("");
+  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}${p.au ? `<span class="au">${ital(p.au)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
+  $("posterList").innerHTML = SITE.posters.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}</li>`).join("");
   $("photoList").innerHTML = SITE.photos.map(g => `<div class="subhead">${esc(g.group)}</div><div class="photo-cols">${g.items.map(p => `<figure${p.wide ? ' class="wide"' : ""}><div class="shot">${p.src ? `<img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy">` : "Photo coming soon"}</div><figcaption>${esc(p.caption)}</figcaption></figure>`).join("")}</div>`).join("");
   $("aboutText").innerHTML = SITE.about.map(p => `<p>${esc(p)}</p>`).join("");
   if (CV_URL) $("contactList").innerHTML = `<a href="${esc(CV_URL)}" target="_blank" rel="noopener">Download my CV</a>`;
