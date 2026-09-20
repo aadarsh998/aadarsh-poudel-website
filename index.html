@@ -401,7 +401,7 @@ function render() {
   $("resCards").innerHTML = SITE.research.map(cardHTML).join("");
   $("projectList").innerHTML = SITE.projects.map(p => `<li>${ital(p.t)}${p.sup ? `<span class="au">${esc(p.sup)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("interestList").innerHTML = SITE.interests.map(p => `<p>${esc(p)}</p>`).join("");
-  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}${p.au ? `<span class="au">${ital(p.au)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
+  $("pubList").innerHTML = SITE.published.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${p.s ? `<b>${ital(p.t)}</b>` : ital(p.t)}</a>` : (p.s ? `<b>${ital(p.t)}</b>` : ital(p.t))}${p.au ? `<span class="au">${ital(p.au)}</span>` : ""}${p.s ? `<span class="st">${esc(p.s)}</span>` : ""}</li>`).join("");
   $("posterList").innerHTML = SITE.posters.map(p => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${ital(p.t)}</a>` : ital(p.t)}</li>`).join("");
   $("photoList").innerHTML = SITE.photos.map(g => `<div class="subhead">${esc(g.group)}</div><div class="photo-cols">${g.items.map(p => `<figure${p.wide ? ' class="wide"' : ""}><div class="shot">${p.src ? `<img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy">` : "Photo coming soon"}</div><figcaption>${esc(p.caption)}</figcaption></figure>`).join("")}</div>`).join("");
   $("aboutText").innerHTML = SITE.about.map(p => `<p>${esc(p)}</p>`).join("");
